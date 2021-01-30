@@ -24,7 +24,9 @@ function generateStoryMarkup(story) {
 
   const hostName = story.getHostName();
   return $(`
+
       <li id="${story.storyId}">
+      <span class="star"><i class="fa${currentUser.favorites.find(s => s.storyId == story.storyId) ? "s" : "r"} fa-star" ></i></span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -50,3 +52,23 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+
+// async function postUserStory(author,title,url)
+// {
+
+//   console.log(currentUser)
+  
+//   const response = await axios({
+//     url: `${BASE_URL}/storeies`,
+//     method: "POST",
+//     data: {
+//       token:currentUser.loginToken,
+//       story: {
+//           author, 
+//           title,
+//           url
+//       }
+//   } },
+//   );
+// }

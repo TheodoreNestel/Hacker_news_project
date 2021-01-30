@@ -33,4 +33,35 @@ function updateNavOnLogin() {
   $navLogin.hide();
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
+  $logedInUserNav.show();
+
 }
+
+function postStory(evt){
+  evt.preventDefault();
+
+  $makeStory.show();
+  
+}
+
+
+$("#userSub").on("click",postStory);
+
+$makeStory.on("submit",function(evt){
+
+  //evt.preventDefault();
+
+  storyList.addStory($("#author").val(), $("#title").val(), $("#url").val(), currentUser);
+
+  putStoriesOnPage();
+
+  $makeStory.hide();
+
+
+$("#author").val("");
+$("#title").val("");
+$("#url").val("");
+
+
+
+})

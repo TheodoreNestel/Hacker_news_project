@@ -112,5 +112,66 @@ function updateUIOnUserLogin() {
 
   $allStoriesList.show();
 
+
   updateNavOnLogin();
 }
+
+
+$allStoriesList.on("click" , function(evt){
+
+
+  
+ 
+
+  const star = evt.target.closest(".star");
+
+  if(!star){
+    return
+  }
+
+  const id = $(star).parent().attr("id");
+
+  const index = currentUser.favorites.find((story) => story.storyId == id );
+
+  
+  if(index){
+    //remove from favourites
+    console.log("remove")
+    currentUser.favorites = currentUser.favorites.filter( s => s.storyId != id );
+  }
+  else{
+    const story = storyList.stories.find(s => s.storyId == id)
+
+    console.log("add")
+    currentUser.favorites.push(story);
+  }
+
+
+  const icon =  $(star.querySelector("i"));
+
+  icon.removeClass("fas far");
+  icon.addClass(index ? "far" : "fas");
+
+  
+
+  
+
+})
+
+
+$favButton.on("click", function(){
+
+
+  $allStoriesList.empty();
+
+  // loop through all of our stories and generate HTML for them
+  for (let story of currentUser.favorites) {
+    const $story = generateStoryMarkup(story);
+    $allStoriesList.append($story);
+  }
+
+  $allStoriesList.show();
+
+
+
+})

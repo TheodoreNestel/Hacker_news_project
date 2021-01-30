@@ -25,7 +25,7 @@ class Story {
 
   getHostName() {
     // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    return this.url.split("/").slice(0,3).join("/");
   }
 }
 
@@ -73,8 +73,39 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory( /* user, newStory */) {
-    // UNIMPLEMENTED: complete this function!
+  async addStory(author,title,url,currentUser) {
+
+
+
+
+    
+
+
+    
+  console.log(author,title,url,currentUser)
+  
+  const response = await axios({
+
+    url: `${BASE_URL}/stories`,
+    method: "POST",
+
+    data: {
+      token:currentUser.loginToken,
+      story: {
+          author, 
+          title,
+          url
+      }
+
+
+  } },
+  );
+
+  console.log(response);
+  
+  this.stories.unshift(new Story(response.data.story));
+
+
   }
 }
 
@@ -117,11 +148,17 @@ class User {
    */
 
   static async signup(username, password, name) {
+
+
+    console.log(username , password, name )
+
     const response = await axios({
       url: `${BASE_URL}/signup`,
       method: "POST",
       data: { user: { username, password, name } },
     });
+    
+    let { user } = response.data;
 
     return new User(
       {
