@@ -152,7 +152,7 @@ $allStoriesList.on("click" , function(evt){
   icon.removeClass("fas far");
   icon.addClass(index ? "far" : "fas");
 
-  
+  console.log(currentUser);
 
   
 
@@ -175,3 +175,18 @@ $favButton.on("click", function(){
 
 
 })
+
+$MyStories.on("click", function(){
+
+  $allStoriesList.empty();
+
+
+  for (let story of currentUser.ownStories) {
+    const $story = generateStoryMarkup(story);
+    $allStoriesList.append($story);
+  }
+
+  $allStoriesList.show();
+
+})
+
