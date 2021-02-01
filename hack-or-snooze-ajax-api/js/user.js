@@ -117,19 +117,9 @@ function updateUIOnUserLogin() {
 }
 
 
-$allStoriesList.on("click" , function(evt){
-
+async function starClick(star , id){
 
   
- 
-
-  const star = evt.target.closest(".star");
-
-  if(!star){
-    return
-  }
-
-  const id = $(star).parent().attr("id");
 
   const index = currentUser.favorites.find((story) => story.storyId == id );
 
@@ -152,7 +142,46 @@ $allStoriesList.on("click" , function(evt){
   icon.removeClass("fas far");
   icon.addClass(index ? "far" : "fas");
 
-  console.log(currentUser);
+
+}
+
+
+async function garbageClick(trash , id){
+
+  console.log(id);
+
+  await currentUser.deleteStory(id);
+
+ 
+}
+
+$allStoriesList.on("click" , function(evt){
+
+  
+  
+  const trash = evt.target.closest(".trash");
+
+  const star = evt.target.closest(".star");
+
+  if(!star && !trash){
+
+    return
+
+  }
+
+  const id = $(star || trash).parent().attr("id")
+
+  if(star){
+    starClick(star , id);
+  }
+  else if(trash){
+    garbageClick(trash , id);
+  }
+
+  
+    
+  
+
 
   
 

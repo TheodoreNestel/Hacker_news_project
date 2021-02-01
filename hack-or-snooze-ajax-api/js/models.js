@@ -101,12 +101,13 @@ class StoryList {
   } },
   );
 
-  console.log(response);
+  
   
   this.stories.unshift(new Story(response.data.story));
 
-
+  
   }
+  
 }
 
 
@@ -227,5 +228,21 @@ class User {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  }
+  async deleteStory(storyId){
+
+     const response = await axios({
+
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: "POST",
+  
+      data: {
+
+        token:this.loginToken
+        
+  
+    } },
+    );
+
   }
 }

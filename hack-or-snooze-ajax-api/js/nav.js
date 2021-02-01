@@ -47,20 +47,27 @@ function postStory(evt){
 
 $("#userSub").on("click",postStory);
 
-$makeStory.on("submit",function(evt){
+$makeStory.on("submit", async function(evt){
 
-  //evt.preventDefault();
 
-  storyList.addStory($("#author").val(), $("#title").val(), $("#url").val(), currentUser);
+  
+
+  evt.preventDefault();
+  
+  $makeStory.hide();
+  await storyList.addStory($("#author").val(), $("#title").val(), $("#url").val(), currentUser);
 
   putStoriesOnPage();
 
-  $makeStory.hide();
+  
 
 
 $("#author").val("");
 $("#title").val("");
 $("#url").val("");
+
+
+
 
 
 

@@ -19,14 +19,29 @@ async function getAndShowStoriesOnStart() {
  * Returns the markup for the story.
  */
 
+ function isFavorite(storyId){
+
+  if(!currentUser){
+    return "r"
+  }
+
+  return currentUser.favorites.find(s => s.storyId == storyId) ? "s" : "r";
+
+ }
+
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
+
+
+  
+
 
   const hostName = story.getHostName();
   return $(`
 
       <li id="${story.storyId}">
-      <span class="star"><i class="fa${currentUser.favorites.find(s => s.storyId == story.storyId) ? "s" : "r"} fa-star" ></i></span>
+      ${currentUser?.ownStories.find(s => s.storyId == story.storyId) ? '<span class="trash"><i class="fas fa-trash-alt"></i></span>': ""}
+      <span class="star"><i class="fa${isFavorite(story.storyId)} fa-star" ></i></span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -35,13 +50,15 @@ function generateStoryMarkup(story) {
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
+
+    
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
 function putStoriesOnPage() {
   console.debug("putStoriesOnPage");
-
+  
   $allStoriesList.empty();
 
   // loop through all of our stories and generate HTML for them
