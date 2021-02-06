@@ -119,14 +119,17 @@ function updateUIOnUserLogin() {
 
 async function starClick(star , id){
 
+  let method = "POST"
   
 
   const index = currentUser.favorites.find((story) => story.storyId == id );
 
   
+  
   if(index){
     //remove from favourites
     console.log("remove")
+    method = "DELETE"
     currentUser.favorites = currentUser.favorites.filter( s => s.storyId != id );
   }
   else{
@@ -136,6 +139,7 @@ async function starClick(star , id){
     currentUser.favorites.push(story);
   }
 
+  await currentUser.favorited(id,method);
 
   const icon =  $(star.querySelector("i"));
 
@@ -143,14 +147,24 @@ async function starClick(star , id){
   icon.addClass(index ? "far" : "fas");
 
 
+
+
 }
 
 
 async function garbageClick(trash , id){
 
-  console.log(id);
+  console.log(currentUser);
 
   await currentUser.deleteStory(id);
+   
+  $makeStory.hide();
+ 
+  storyList.stories = storyList.stories.filter(story => story.storyId !== id)
+  currentUser.ownStories = currentUser.ownStories.filter(story => story.storyId !== id)
+  putStoriesOnPage();
+
+
 
  
 }

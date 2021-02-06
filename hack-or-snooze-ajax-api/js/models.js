@@ -230,11 +230,32 @@ class User {
     }
   }
   async deleteStory(storyId){
-
+    
+    console.log(this.loginToken)
      const response = await axios({
 
       url: `${BASE_URL}/stories/${storyId}`,
-      method: "POST",
+      method: "DELETE",
+  
+      data: {
+
+        token:this.loginToken
+        
+  
+    } },
+    );
+
+
+  }
+
+  async favorited (id , method){
+    
+    
+     const response = await axios({
+
+      url: `https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${id}`,
+      
+      method,
   
       data: {
 
